@@ -1,10 +1,11 @@
 const {Sprint, Story} = require('../entities');
 
 describe('Sprint', () => {
-    it('ストーリーの配列が正しい', () => {
+    it('ストーリーが正しい', () => {
         const sprint = new Sprint(1);
         expect(sprint.id).toBe(1);
         expect(sprint.stories).toHaveLength(0);
+
         const story = new Story('環境構築', '開発環境をセットアップする');
         sprint.addStory(story);
         expect(sprint.stories).toHaveLength(1);
@@ -12,7 +13,6 @@ describe('Sprint', () => {
 
     it('アサイン状況を正しく取得できる', () => {
         const sprint = new Sprint(1);
-        expect(sprint.assignment).toEqual([]);
 
         const story1 = new Story('環境構築', '開発環境をセットアップする', 3, '井上');
         sprint.addStory(story1);
@@ -22,15 +22,13 @@ describe('Sprint', () => {
         sprint.addStory(story3);
         const story4 = new Story('E2E', 'E2Eテストを作成する', 2, '山田');
         sprint.addStory(story4);
+        // 人別に、ポイント合計の降順でソートされる
         expect(sprint.assignment).toEqual([
             ['山田', 4],
             ['井上', 3],
             ['町田', 1],
         ]);
-
     });
-
-
 });
 
 describe('Story', () => {
